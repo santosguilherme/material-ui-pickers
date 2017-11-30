@@ -16,6 +16,9 @@ export default class ModalWrapper extends PureComponent {
     labelFunc: PropTypes.func,
     okLabel: PropTypes.string,
     cancelLabel: PropTypes.string,
+    allowClear: PropTypes.bool,
+    onClear: PropTypes.func.isRequired,
+    clearLabel: PropTypes.string,
   }
 
   static defaultProps = {
@@ -26,6 +29,8 @@ export default class ModalWrapper extends PureComponent {
     okLabel: undefined,
     cancelLabel: undefined,
     format: undefined,
+    allowClear: false,
+    clearLabel: undefined,
   }
 
   state = {
@@ -46,6 +51,11 @@ export default class ModalWrapper extends PureComponent {
     this.props.onDismiss();
   }
 
+  handleClear = () => {
+    this.togglePicker();
+    this.props.onClear();
+  }
+
   render() {
     const {
       value,
@@ -58,6 +68,9 @@ export default class ModalWrapper extends PureComponent {
       labelFunc,
       okLabel,
       cancelLabel,
+      allowClear,
+      onClear,
+      clearLabel,
       ...other
     } = this.props;
 
@@ -80,6 +93,9 @@ export default class ModalWrapper extends PureComponent {
           dialogContentClassName={dialogContentClassName}
           okLabel={okLabel}
           cancelLabel={cancelLabel}
+          allowClear={allowClear}
+          onClear={this.handleClear}
+          clearlabel={clearLabel}
         >
           { children }
         </ModalDialog>

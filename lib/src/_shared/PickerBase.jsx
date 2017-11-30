@@ -74,4 +74,8 @@ export default class PickerBase extends PureComponent {
       ? this.default12hFormat
       : this.default24hFormat;
   }
+
+  handleClear = () => {
+    this.props.onChange(null);
+  }
 }

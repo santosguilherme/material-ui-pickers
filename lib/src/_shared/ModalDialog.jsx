@@ -18,39 +18,59 @@ const styles = {
   },
 };
 
-const ModalDialog = ({
-  children,
-  classes,
-  onAccept,
-  onDismiss,
-  okLabel,
-  cancelLabel,
-  dialogContentClassName,
-  ...other
-}) => (
-  <Dialog onRequestClose={onDismiss} classes={{ paper: classes.dialogRoot }} {...other}>
-    <DialogContent className={classnames(classes.dialog, dialogContentClassName)}>
-      { children }
-    </DialogContent>
+const ModalDialog = (props) => {
+  const {
+    children,
+    classes,
+    onAccept,
+    onDismiss,
+    okLabel,
+    cancelLabel,
+    dialogContentClassName,
+    allowClear,
+    onClear,
+    clearLabel,
+    ...other
+  } = props;
 
-    <DialogActions>
-      <Button
-        color="primary"
-        onClick={onDismiss}
-        tabIndex={-1}
-      >
-        { cancelLabel }
-      </Button>
+  return (
+    <Dialog
+      onRequestClose={onDismiss}
+      classes={{ paper: classes.dialogRoot }}
+      {...other}
+    >
+      <DialogContent className={classnames(classes.dialog, dialogContentClassName)}>
+        { children }
+      </DialogContent>
 
-      <Button
-        color="primary"
-        onClick={onAccept}
-      >
-        { okLabel }
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
+      <DialogActions>
+        {allowClear && (
+          <Button
+            color="primary"
+            onClear={onClear || this.handleClear}
+            tabIndex={-2}
+          >
+              { clearLabel }
+          </Button>
+        )}
+        <Button
+          color="primary"
+          onClick={onDismiss}
+          tabIndex={-1}
+        >
+          { cancelLabel }
+        </Button>
+
+        <Button
+          color="primary"
+          onClick={onAccept}
+        >
+          { okLabel }
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 
 ModalDialog.propTypes = {
@@ -61,12 +81,18 @@ ModalDialog.propTypes = {
   dialogContentClassName: PropTypes.string,
   okLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
+  onClear: PropTypes.func,
+  allowClear: PropTypes.bool,
+  clearLabel: PropTypes.string,
 };
 
 ModalDialog.defaultProps = {
   dialogContentClassName: '',
   okLabel: 'OK',
   cancelLabel: 'Cancel',
+  onClear: null,
+  allowClear: false,
+  clearLabel: 'Clear',
 };
 
 export default withStyles(styles, { name: 'MuiPickersModal' })(ModalDialog);

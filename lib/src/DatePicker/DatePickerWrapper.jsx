@@ -80,8 +80,12 @@ export default class DatePickerWrapper extends PickerBase {
       renderDay,
       labelFunc,
       utils,
+      allowClear,
       ...other
     } = this.props;
+
+    console.log('allowClear', allowClear);
+    console.log('onClear', this.handleClear);
 
     return (
       <ModalWrapper
@@ -92,6 +96,8 @@ export default class DatePickerWrapper extends PickerBase {
         onDismiss={this.handleDismiss}
         invalidLabel={invalidLabel}
         labelFunc={labelFunc}
+        allowClear={allowClear}
+        onClear={this.handleClear}
         {...other}
       >
         <DatePicker
